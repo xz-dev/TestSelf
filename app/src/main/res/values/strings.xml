@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TestSelf</string>
+    <string name="title_activity_question_page">QuestionPageActivity</string>
+</resources>

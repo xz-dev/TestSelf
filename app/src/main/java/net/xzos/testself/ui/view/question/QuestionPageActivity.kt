@@ -1,0 +1,108 @@
+package net.xzos.testself.ui.view.question
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.runBlocking
+import net.xzos.testself.core.manager.PoolManager
+import net.xzos.testself.ui.view.pool.viewModel
+
+class QuestionPageActivity : ComponentActivity() {
+
+    private lateinit var poolViewModel: PoolViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        poolViewModel = PoolViewModel(runBlocking { PoolManager.getEnablePool() } ?: kotlin.run {
+            super.finish()
+            return
+        }).apply {
+            renewData()
+        }
+        setContent {
+            val questionViewModel = QuestionViewModel(poolViewModel.question ?: kotlin.run {
+                super.finish()
+                return@setContent
+            })
+            questionViewModel.setQuestionView(poolViewModel.question ?: kotlin.run {
+                super.finish()
+                return@setContent
+            })
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.ArrowBack,
+                                    contentDescription = "Back",
+                                    modifier = Modifier
+                                        .padding(end = 16.dp)
+                                        .clickable {
+                                            onBackPressed()
+                                        }
+                                )
+                                Text("题库（${viewModel.currentPool?.name}）")
+                            }
+                        },
+                    )
+                },
+                floatingActionButton = {
+                    with(poolViewModel) {
+                        ExtendedFloatingActionButton(
+                            text = { Text(text = floatingActionButtonText) },
+                            onClick = {
+                                floatingActionButtonClick(questionViewModel.checkAnswer())
+                            },
+                            icon = { Icon(floatingActionButtonIcon, "提交") }
+                        )
+                    }
+                },
+                bottomBar = {
+                    BottomAppBar(
+                        backgroundColor = Color.Black,
+                        // Defaults to null, that is, No cutout
+                        cutoutShape = MaterialTheme.shapes.small.copy(
+                            CornerSize(percent = 50)
+                        )
+                    ) {
+                        Row {
+                            TextButton(
+                                enabled = poolViewModel.haveLastQuestion,
+                                onClick = { poolViewModel.toLastQuestion() }) {
+                                Text(text = "上一题")
+                            }
+                            TextButton(
+                                enabled = poolViewModel.haveNextQuestion,
+                                onClick = { poolViewModel.toNextQuestion() }) {
+                                Text(text = "下一题")
+                            }
+                        }
+                    }
+                }
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    QuestionCard(questionViewModel)
+                    if (questionViewModel.explainShow)
+                        Text(text = questionViewModel.explain, color = Color.Red)
+                }
+            }
+        }
+    }
+}
