@@ -14,7 +14,8 @@ import net.xzos.testself.core.database.table.QuestionEntity
 import net.xzos.testself.core.manager.PoolManager
 
 class PoolViewModel(
-    pool: PoolEntity
+    pool: PoolEntity,
+    private val reviewMode: ReviewMode
 ) : ViewModel() {
     var question by mutableStateOf<QuestionEntity?>(null)
         private set
@@ -28,10 +29,9 @@ class PoolViewModel(
     var floatingActionButtonIcon by mutableStateOf(Icons.Filled.Done)
 
     private val pool by mutableStateOf(pool)
-    private var questionList: List<QuestionEntity> = listOf()
+    private var questionList: List<QuestionEntity> = getQuestionList(pool)
 
     fun renewData() {
-        setNewPool(pool)
         question = questionList.firstOrNull()
         renewStatus()
     }
@@ -53,11 +53,14 @@ class PoolViewModel(
         }
     }
 
-    private fun setNewPool(pool: PoolEntity) {
-        questionList = runBlocking(Dispatchers.Default) {
-            PoolManager.getNeedAnswerQuestionList(pool)
+    private fun getQuestionList(pool: PoolEntity) =
+        runBlocking(Dispatchers.Default) {
+            when(reviewMode){
+                ReviewMode.LEARN -> PoolManager.getNeedAnswerQuestionList(pool)
+                ReviewMode.REVIEW -> PoolManager.getNeedReviewAnswerQuestionList(pool)
+                ReviewMode.REVIEW_FAIL -> PoolManager.getIncorrectAnswerQuestionList(pool)
+            }
         }
-    }
 
     fun toNextQuestion() {
         question = questionList[questionList.indexOf(question) + 1]
@@ -68,4 +71,10 @@ class PoolViewModel(
         question = questionList[questionList.indexOf(question) - 1]
         renewStatus()
     }
+}
+
+enum class ReviewMode{
+    LEARN,
+    REVIEW,
+    REVIEW_FAIL,
 }

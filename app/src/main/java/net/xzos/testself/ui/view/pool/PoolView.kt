@@ -1,15 +1,14 @@
 package net.xzos.testself.ui.view.pool
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.NextPlan
 import androidx.compose.material.icons.filled.NoteAdd
 import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
-import net.xzos.testself.core.database.table.QuestionEntity
 import net.xzos.testself.core.manager.addPoolLauncher
+import net.xzos.testself.ui.theme.Grey
 
 val viewModel = PoolViewModel()
 
@@ -47,9 +46,10 @@ fun PoolView() {
                         }
                     }
                 }
-            })
+            },
+            backgroundColor = Grey)
         }
     ) {
-        // Screen content
+        QuestionList(viewModel.questionList)
     }
 }

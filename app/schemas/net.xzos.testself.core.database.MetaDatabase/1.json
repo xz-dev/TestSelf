@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "3de06f233c40f3b336d22ceea3105709",
+    "identityHash": "23a1b7c7be55ca50cfcd73013e132a5d",
     "entities": [
       {
         "tableName": "pool",
@@ -94,7 +94,7 @@
       },
       {
         "tableName": "question_extra",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`question_owner_id` TEXT NOT NULL, `answer_right_num` INTEGER NOT NULL, `answer_incorrect_num` INTEGER NOT NULL, `in_answer` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`question_owner_id` TEXT NOT NULL, `answer_right_num` INTEGER NOT NULL, `answer_incorrect_num` INTEGER NOT NULL, `answerable_num` INTEGER NOT NULL, `answer_incorrect` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
           {
             "fieldPath": "question_owner_id",
@@ -115,8 +115,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "answerable",
-            "columnName": "in_answer",
+            "fieldPath": "answerableNum",
+            "columnName": "answerable_num",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "answerIncorrect",
+            "columnName": "answer_incorrect",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -140,7 +146,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3de06f233c40f3b336d22ceea3105709')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '23a1b7c7be55ca50cfcd73013e132a5d')"
     ]
   }
 }

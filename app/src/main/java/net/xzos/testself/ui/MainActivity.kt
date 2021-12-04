@@ -1,4 +1,4 @@
-package net.xzos.testself
+package net.xzos.testself.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,7 +9,8 @@ import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
-import net.xzos.testself.ui.theme.TestSelfTheme
+import androidx.compose.ui.graphics.vector.ImageVector
+import net.xzos.testself.ui.theme.Grey
 import net.xzos.testself.ui.view.Greeting
 import net.xzos.testself.ui.view.pool.PoolView
 
@@ -18,46 +19,42 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BaseView(activity = this) {
-                DefaultPreview()
+            BaseTheme {
+                BaseView()
             }
         }
     }
 }
 
 @Composable
-fun BaseView(
-    activity: ComponentActivity,
-    content: @Composable () -> Unit
-) {
+fun BaseView() {
+    var pageIndex by remember { mutableStateOf(0) }
+    val items = listOf(
+        Triple("背题", Icons.Filled.Description, {
+            pageIndex = 0
+        }),
+        Triple("题库", Icons.Filled.Book, {
+            pageIndex = 1
+        }),
+        Triple("设置", Icons.Filled.Settings, {
+            pageIndex = 2
+        })
+    )
     Scaffold(
-        bottomBar = { BottomNav(activity) }
+        bottomBar = { BottomNav(items) }
     ) {
-        content()
+        when (pageIndex) {
+            0 -> Greeting()
+            1 -> PoolView()
+            else -> Greeting()
+        }
     }
 }
 
 @Composable
-fun BottomNav(activity: ComponentActivity) {
-    val items = listOf(
-        Triple("背题", Icons.Filled.Description, {
-            activity.setContent {
-                BaseView(activity = activity) {
-                    Greeting()
-                }
-            }
-        }),
-        Triple("题库", Icons.Filled.Book, {
-            activity.setContent {
-                BaseView(activity = activity) {
-                    PoolView()
-                }
-            }
-        }),
-        Triple("设置", Icons.Filled.Settings, {})
-    )
+fun BottomNav(items: List<Triple<String, ImageVector, () -> Unit>>) {
     var selectedItem by remember { mutableStateOf(0) }
-    BottomNavigation {
+    BottomNavigation(contentColor = Grey) {
         items.forEachIndexed { index, item ->
             BottomNavigationItem(
                 icon = { Icon(item.second, contentDescription = null) },
@@ -69,12 +66,5 @@ fun BottomNav(activity: ComponentActivity) {
                 }
             )
         }
-    }
-}
-
-@Composable
-fun DefaultPreview() {
-    TestSelfTheme {
-        Greeting()
     }
 }
