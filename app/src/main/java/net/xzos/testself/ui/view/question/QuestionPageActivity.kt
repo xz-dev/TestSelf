@@ -28,7 +28,10 @@ class QuestionPageActivity : ComponentActivity() {
                 super.finish()
                 return
             },
-            intent.getStringExtra("review")?.let { ReviewMode.valueOf(it) } ?: ReviewMode.LEARN
+            intent.getStringExtra("review")?.let { ReviewMode.valueOf(it) } ?: kotlin.run {
+                super.finish()
+                return
+            }
         ).apply {
             renewData()
         }

@@ -19,16 +19,18 @@ import net.xzos.testself.ui.view.question.ReviewMode
 
 private val itemList = listOf(
     Pair("练习", { context: Context ->
-        context.startActivity(Intent(context, QuestionPageActivity::class.java))
+        context.startActivity(Intent(context, QuestionPageActivity::class.java).apply {
+            putExtra("review", ReviewMode.LEARN.name)
+        })
     }),
     Pair("复习", { context: Context ->
         context.startActivity(Intent(context, QuestionPageActivity::class.java).apply {
-            putExtra("review", ReviewMode.REVIEW)
+            putExtra("review", ReviewMode.REVIEW.name)
         })
     }),
     Pair("复习错题", { context: Context ->
         context.startActivity(Intent(context, QuestionPageActivity::class.java).apply {
-            putExtra("review", ReviewMode.REVIEW_FAIL)
+            putExtra("review", ReviewMode.REVIEW_FAIL.name)
         })
     }),
 )
@@ -49,7 +51,7 @@ fun Greeting() {
                 modifier = Modifier
                     .padding(32.dp)
                     .fillMaxWidth()
-                    .height(160.dp)
+                    .height(142.dp)
             ) {
                 Column(
                     modifier = Modifier.clickable {

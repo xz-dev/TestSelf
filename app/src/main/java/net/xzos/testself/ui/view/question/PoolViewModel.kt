@@ -55,7 +55,7 @@ class PoolViewModel(
 
     private fun getQuestionList(pool: PoolEntity) =
         runBlocking(Dispatchers.Default) {
-            when(reviewMode){
+            when (reviewMode) {
                 ReviewMode.LEARN -> PoolManager.getNeedAnswerQuestionList(pool)
                 ReviewMode.REVIEW -> PoolManager.getNeedReviewAnswerQuestionList(pool)
                 ReviewMode.REVIEW_FAIL -> PoolManager.getIncorrectAnswerQuestionList(pool)
@@ -73,7 +73,7 @@ class PoolViewModel(
     }
 }
 
-enum class ReviewMode{
+enum class ReviewMode {
     LEARN,
     REVIEW,
     REVIEW_FAIL,
