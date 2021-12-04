@@ -7,11 +7,12 @@ import net.xzos.testself.core.parser.xlsSaveDB
 import net.xzos.testself.ui.utils.getFileLauncher
 
 @Composable
-fun addPoolLauncher(): () -> Unit {
+fun addPoolLauncher(callback: () -> Unit): () -> Unit {
     val launcher = getFileLauncher(callback = { inputStream ->
         inputStream?.let {
             runBlocking(Dispatchers.Default) { xlsSaveDB(it) }
         }
+        callback()
     })
     return { launcher.launch("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") }
 }

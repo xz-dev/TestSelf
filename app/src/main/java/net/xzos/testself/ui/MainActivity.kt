@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.vector.ImageVector
 import net.xzos.testself.ui.theme.Grey
+import net.xzos.testself.ui.view.About
 import net.xzos.testself.ui.view.Greeting
 import net.xzos.testself.ui.view.pool.PoolView
 
@@ -46,7 +47,7 @@ fun BaseView() {
         when (pageIndex) {
             0 -> Greeting()
             1 -> PoolView()
-            else -> Greeting()
+            else -> About()
         }
     }
 }

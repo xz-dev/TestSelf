@@ -16,7 +16,7 @@ val viewModel = PoolViewModel()
 @Composable
 fun PoolView() {
     viewModel.renew()
-    val launcherFun = addPoolLauncher()
+    val launcherFun = addPoolLauncher { viewModel.renew() }
     Scaffold(
         topBar = {
             TopAppBar(title = {

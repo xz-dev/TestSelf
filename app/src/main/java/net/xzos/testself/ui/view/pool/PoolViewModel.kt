@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import net.xzos.testself.core.database.table.PoolEntity
+import net.xzos.testself.core.database.table.QuestionEntity
 import net.xzos.testself.core.manager.PoolManager
 
 class PoolViewModel(
@@ -14,22 +15,21 @@ class PoolViewModel(
     poolList: List<PoolEntity> = listOf(),
 ) : ViewModel() {
     var poolList by mutableStateOf(poolList)
+        private set
 
     var currentPool by mutableStateOf(pool)
         private set
 
-    var questionList by mutableStateOf(currentPool?.let {
-        runBlocking { PoolManager.getQuestionList(it) }
-    } ?: listOf())
+    var questionList by mutableStateOf(listOf<QuestionEntity>())
         private set
 
     fun renew() {
         val pool = runBlocking(Dispatchers.Default) { PoolManager.getEnablePool() }
-        val poolList = runBlocking(Dispatchers.Default) { PoolManager.getPoolList() }
-        val questionList = runBlocking(Dispatchers.Default) { pool?.let { PoolManager.getQuestionList(it) } ?: listOf() }
         currentPool = pool
-        this.poolList = poolList
-        this.questionList = questionList
+        poolList = runBlocking(Dispatchers.Default) { PoolManager.getPoolList() }
+        questionList = runBlocking(Dispatchers.Default) {
+            pool?.let { PoolManager.getQuestionList(it) } ?: listOf()
+        }
     }
 
     fun setPool(pool: PoolEntity?) {
@@ -38,6 +38,6 @@ class PoolViewModel(
                 PoolManager.enablePool(it)
             }
         }
-        currentPool = pool
+        renew()
     }
 }
