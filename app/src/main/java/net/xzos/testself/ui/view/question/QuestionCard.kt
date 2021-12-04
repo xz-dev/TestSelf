@@ -1,7 +1,9 @@
 package net.xzos.testself.ui.view.question
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Checkbox
 import androidx.compose.material.Text
@@ -28,8 +30,10 @@ fun ChoiceList(viewModel: QuestionViewModel) {
     ) {
         viewModel.question.option.forEach { (num, text) ->
             Row(
-                modifier = Modifier.padding(top = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier
+                    .height(30.dp)
+                    .clickable { viewModel.setChoice(num) },
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Checkbox(
                     checked = num in viewModel.choiceList,

@@ -27,11 +27,11 @@ fun About() {
             modifier = Modifier
                 .padding(32.dp)
                 .fillMaxWidth()
-                .height(160.dp)
+                .height(100.dp)
         ) {
             Column(
                 modifier = Modifier.clickable {
-                    Toast.makeText(content, "", Toast.LENGTH_LONG).show()
+                    Toast.makeText(content, "月是天上客", Toast.LENGTH_LONG).show()
                 },
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,

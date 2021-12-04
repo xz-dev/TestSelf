@@ -83,7 +83,10 @@ class QuestionPageActivity : ComponentActivity() {
                             Row {
                                 TextButton(
                                     enabled = poolViewModel.haveLastQuestion,
-                                    onClick = { poolViewModel.toLastQuestion() }) {
+                                    onClick = {
+                                        poolViewModel.toLastQuestion()
+                                        questionViewModel.checkAnswer()
+                                    }) {
                                     Text(text = "上一题")
                                 }
                                 TextButton(
@@ -100,9 +103,11 @@ class QuestionPageActivity : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier.fillMaxWidth(),
                     ) {
-                        QuestionCard(questionViewModel)
-                        if (questionViewModel.explainShow)
-                            Text(text = questionViewModel.explain, color = Red0)
+                        Column {
+                            QuestionCard(questionViewModel)
+                            if (questionViewModel.explainShow)
+                                Text(text = questionViewModel.explain, color = Red0)
+                        }
                     }
                 }
             }
