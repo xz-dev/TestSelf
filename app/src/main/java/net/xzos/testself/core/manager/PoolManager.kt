@@ -44,12 +44,12 @@ object PoolManager {
 
     suspend fun getNeedAnswerQuestionList(pool: PoolEntity): List<QuestionEntity> =
         metaDatabase.poolDao().getPoolAndQuestion(pool.id).questionList.filter {
-            ExtraManager.getQuestionExtra(it).ansRightNum > 0
+            ExtraManager.getQuestionExtra(it).answerableNum > 0
         }
 
     suspend fun getNeedReviewAnswerQuestionList(pool: PoolEntity): List<QuestionEntity> =
         metaDatabase.poolDao().getPoolAndQuestion(pool.id).questionList.filter { question ->
-            ExtraManager.getQuestionExtra(question).ansRightNum.let { it in 1..2 }
+            ExtraManager.getQuestionExtra(question).answerableNum.let { it in 1..2 }
         }
 
     suspend fun getIncorrectAnswerQuestionList(pool: PoolEntity): List<QuestionEntity> =
