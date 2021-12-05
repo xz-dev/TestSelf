@@ -3,6 +3,7 @@ package net.xzos.testself.ui.view.pool
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.NextPlan
 import androidx.compose.material.icons.filled.NoteAdd
 import androidx.compose.runtime.*
@@ -46,6 +47,22 @@ fun PoolView() {
                                 }) {
                                     Text(it.name)
                                 }
+                            }
+                        }
+                    }
+                    Box {
+                        var showMenu by remember { mutableStateOf(false) }
+                        IconButton(onClick = { showMenu = true }) {
+                            Icon(Icons.Default.MoreVert, null)
+                        }
+                        DropdownMenu(
+                            expanded = showMenu,
+                            onDismissRequest = { showMenu = false }
+                        ) {
+                            DropdownMenuItem(onClick = {
+                                viewModel.reviewPool()
+                            }) {
+                                Text("再次复习")
                             }
                         }
                     }

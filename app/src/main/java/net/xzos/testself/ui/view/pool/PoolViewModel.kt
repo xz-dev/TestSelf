@@ -40,4 +40,15 @@ class PoolViewModel(
         }
         renew()
     }
+
+    fun reviewPool() {
+        currentPool?.let {
+            runBlocking(Dispatchers.Default) {
+                questionList.forEach {
+                    PoolManager.enableQuestionAnswer(it)
+                }
+            }
+        }
+        renew()
+    }
 }

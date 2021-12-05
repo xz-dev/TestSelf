@@ -74,7 +74,10 @@ object PoolManager {
         val questionExtra = ExtraManager.getQuestionExtra(question)
         ExtraManager.saveQuestionExtra(
             QuestionExtraEntity(
-                question.id, questionExtra.ansRightNum, questionExtra.ansIncorrectNum
+                question.id,
+                questionExtra.ansRightNum,
+                questionExtra.ansIncorrectNum,
+                id = questionExtra.id,
             )
         )
     }
