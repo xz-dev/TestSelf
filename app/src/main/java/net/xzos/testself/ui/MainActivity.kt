@@ -38,7 +38,7 @@ fun BaseView() {
     val items = listOf(
         Triple("learn", "背题", Icons.Filled.Description),
         Triple("pool", "题库", Icons.Filled.Book),
-        Triple("setting", "设置", Icons.Filled.Settings)
+        Triple("about", "关于", Icons.Filled.Settings)
     )
     val navController = rememberNavController()
     Scaffold(
@@ -51,7 +51,7 @@ fun BaseView() {
         ) {
             composable("learn") { Greeting() }
             composable("pool") { PoolView() }
-            composable("setting") { About() }
+            composable("about") { About() }
         }
     }
 }
