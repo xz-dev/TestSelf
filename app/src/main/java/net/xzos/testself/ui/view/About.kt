@@ -50,8 +50,20 @@ fun About() {
                 modifier = Modifier
                     .padding(top = 8.dp)
                     .clickable {
-                        powerTextName = "hh"
-                        powerTextColor = TextColorRed
+                        when (powerTextName) {
+                            "xz" -> {
+                                powerTextName = "hh"
+                                powerTextColor = TextColorRed
+                            }
+                            "hh" -> {
+                                powerTextName = "❤"
+                                powerTextColor = Color.Unspecified
+                            }
+                            else -> {
+                                powerTextName = "xz"
+                                powerTextColor = Color.Unspecified
+                            }
+                        }
                     },
                 text = buildAnnotatedString {
                     append("Powered by ")
