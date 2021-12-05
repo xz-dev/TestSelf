@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.runBlocking
 import net.xzos.testself.core.manager.PoolManager
 import net.xzos.testself.ui.BaseTheme
-import net.xzos.testself.ui.theme.Red0
+import net.xzos.testself.ui.theme.Background
 import net.xzos.testself.ui.view.pool.viewModel
 
 class QuestionPageActivity : ComponentActivity() {
@@ -48,6 +48,7 @@ class QuestionPageActivity : ComponentActivity() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
+                            backgroundColor = Background,
                             title = {
                                 Text("题库（${viewModel.currentPool?.name}）")
                             },
@@ -109,7 +110,7 @@ class QuestionPageActivity : ComponentActivity() {
                         Column {
                             QuestionCard(questionViewModel)
                             if (questionViewModel.explainShow)
-                                Text(text = questionViewModel.explain, color = Red0)
+                                Text(text = questionViewModel.explain)
                         }
                     }
                 }

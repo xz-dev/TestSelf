@@ -14,11 +14,12 @@ private val DarkColorPalette = darkColors(
 )
 
 private val LightColorPalette = lightColors(
-    primary = GreenGrass,
-    primaryVariant = Red0,
-    secondary = Red1,
-    background = Grey,
-    onSurface = RedWine,
+    primary = Primary,
+    primaryVariant = PrimaryVariant,
+    secondary = Secondary,
+    secondaryVariant = SecondaryVariant,
+    background = Background,
+    surface = Surface,
 
     /* Other default colors to override
     background = Color.White,
@@ -31,7 +32,7 @@ private val LightColorPalette = lightColors(
 )
 
 @Composable
-fun TestSelfTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+fun TestSelfTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
