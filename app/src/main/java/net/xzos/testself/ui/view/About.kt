@@ -42,7 +42,7 @@ fun About() {
             modifier = Modifier.align(Alignment.BottomCenter),
         ) {
             Text(
-                text = "version:" + BuildConfig.VERSION_NAME,
+                text = "version: " + BuildConfig.VERSION_NAME,
                 color = TextColorLight,
             )
             Text(

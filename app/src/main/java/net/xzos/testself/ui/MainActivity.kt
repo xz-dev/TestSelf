@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -38,7 +39,7 @@ fun BaseView() {
     val items = listOf(
         Triple("learn", "背题", Icons.Filled.Description),
         Triple("pool", "题库", Icons.Filled.Book),
-        Triple("about", "关于", Icons.Filled.Settings)
+        Triple("about", "关于", Icons.Filled.Info)
     )
     val navController = rememberNavController()
     Scaffold(

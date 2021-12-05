@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import net.xzos.testself.ui.theme.Background
 import net.xzos.testself.ui.view.question.QuestionPageActivity
 import net.xzos.testself.ui.view.question.ReviewMode
 
@@ -47,7 +48,6 @@ fun Greeting() {
         itemList.forEach {
             Card(
                 shape = RoundedCornerShape(8.dp),
-                backgroundColor = MaterialTheme.colors.surface,
                 modifier = Modifier
                     .padding(32.dp)
                     .fillMaxWidth()
