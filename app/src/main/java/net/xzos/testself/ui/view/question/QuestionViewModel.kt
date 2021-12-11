@@ -15,6 +15,8 @@ class QuestionViewModel(
     var question by mutableStateOf(question)
         private set
 
+    var isRadio by mutableStateOf(question.answer.size <= 1)
+
     var choiceList by mutableStateOf(setOf<String>())
         private set
 
@@ -26,9 +28,13 @@ class QuestionViewModel(
     }
 
     fun setChoice(optionNum: String) {
-        choiceList = if (optionNum in choiceList)
-            choiceList.minus(optionNum)
-        else choiceList.plus(optionNum)
+        choiceList = if (isRadio) {
+            setOf(optionNum)
+        } else {
+            if (optionNum in choiceList)
+                choiceList.minus(optionNum)
+            else choiceList.plus(optionNum)
+        }
     }
 
     fun checkAnswer(): Boolean {

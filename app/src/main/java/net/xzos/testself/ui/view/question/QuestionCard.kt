@@ -3,6 +3,7 @@ package net.xzos.testself.ui.view.question
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Checkbox
+import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,7 +39,10 @@ fun ChoiceList(viewModel: QuestionViewModel) {
                     .clickable { viewModel.setChoice(num) },
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Checkbox(
+                if (viewModel.isRadio) RadioButton(
+                    selected = num in viewModel.choiceList,
+                    onClick = { viewModel.setChoice(num) })
+                else Checkbox(
                     checked = num in viewModel.choiceList,
                     onCheckedChange = { viewModel.setChoice(num) },
                 )
