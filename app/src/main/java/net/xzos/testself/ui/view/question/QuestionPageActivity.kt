@@ -35,6 +35,9 @@ class QuestionPageActivity : ComponentActivity() {
         ).apply {
             renewData()
         }
+        if (poolViewModel.quit) {
+            finish()
+        }
         setContent {
             val questionViewModel = QuestionViewModel(poolViewModel.question ?: kotlin.run {
                 super.finish()

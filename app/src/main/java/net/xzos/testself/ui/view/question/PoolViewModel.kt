@@ -25,6 +25,8 @@ class PoolViewModel(
     var haveLastQuestion by mutableStateOf(false)
         private set
 
+    val quit by mutableStateOf(question != null)
+
     var floatingActionButtonText by mutableStateOf("提交")
     var floatingActionButtonIcon by mutableStateOf(Icons.Filled.Done)
 
@@ -63,7 +65,11 @@ class PoolViewModel(
         }
 
     fun toNextQuestion() {
-        question = questionList[questionList.indexOf(question) + 1]
+        question = try {
+            questionList[questionList.indexOf(question) + 1]
+        } catch (e: IndexOutOfBoundsException) {
+            null
+        }
         renewStatus()
     }
 
