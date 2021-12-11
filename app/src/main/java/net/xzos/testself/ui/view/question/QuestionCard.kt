@@ -7,15 +7,20 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun QuestionCard(viewModel: QuestionViewModel) {
-    Column {
-        Text(
-            modifier = Modifier.padding(top = 60.dp),
-            text = viewModel.question.stem
-        )
+    val configuration = LocalConfiguration.current
+
+    val screenHeight = configuration.screenHeightDp
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Text(text = viewModel.question.stem)
         ChoiceList(viewModel = viewModel)
     }
 }
@@ -29,6 +34,7 @@ fun ChoiceList(viewModel: QuestionViewModel) {
             Row(
                 modifier = Modifier
                     .defaultMinSize(minHeight = 30.dp)
+                    .fillMaxWidth()
                     .clickable { viewModel.setChoice(num) },
                 verticalAlignment = Alignment.CenterVertically,
             ) {
