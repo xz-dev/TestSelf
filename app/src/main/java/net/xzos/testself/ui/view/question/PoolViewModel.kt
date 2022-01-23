@@ -25,21 +25,18 @@ class PoolViewModel(
     var haveLastQuestion by mutableStateOf(getLastQuestion() != null)
         private set
 
-    val quit by mutableStateOf(question != null)
+    val quit by mutableStateOf(question == null)
 
     var floatingActionButtonText by mutableStateOf("提交")
     var floatingActionButtonIcon by mutableStateOf(Icons.Filled.Done)
 
     private val pool by mutableStateOf(pool)
 
-    fun floatingActionButtonClick() {
+    fun floatingActionButtonClick(rightAnswer: Boolean) {
         if (floatingActionButtonText == "下一题") {
             toNextQuestion()
-            floatingActionButtonText = "提交"
-            floatingActionButtonIcon = Icons.Filled.Done
-        } else {
-            floatingActionButtonText = "下一题"
-            floatingActionButtonIcon = Icons.Filled.ArrowForward
+        } else if (floatingActionButtonText == "提交") {
+            renewView()
         }
     }
 
@@ -66,10 +63,25 @@ class PoolViewModel(
 
     fun toNextQuestion() {
         question = getNextQuestion()
+        renewView()
     }
 
     fun toLastQuestion() {
         question = getLastQuestion()
+        renewView()
+    }
+
+    fun renewView() {
+        haveNextQuestion = getNextQuestion() != null
+        haveLastQuestion = getLastQuestion() != null
+
+        if (question?.answerList.isNullOrEmpty()) {
+            floatingActionButtonText = "提交"
+            floatingActionButtonIcon = Icons.Filled.Done
+        } else {
+            floatingActionButtonText = "下一题"
+            floatingActionButtonIcon = Icons.Filled.ArrowForward
+        }
     }
 }
 

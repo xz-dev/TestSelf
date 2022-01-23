@@ -32,15 +32,16 @@ class QuestionPageActivity : ComponentActivity() {
                 super.finish()
                 return
             }
-        )
+        ).apply { renewView() }
         if (poolViewModel.questionDataList.isEmpty()) {
             finish()
         }
         setContent {
-            val questionViewModel = QuestionViewModel(poolViewModel.question ?: kotlin.run {
+            if (poolViewModel.quit) {
                 super.finish()
                 return@setContent
-            })
+            }
+            val questionViewModel = QuestionViewModel(poolViewModel.question!!)
             BaseTheme {
                 Scaffold(
                     topBar = {
@@ -66,8 +67,7 @@ class QuestionPageActivity : ComponentActivity() {
                             ExtendedFloatingActionButton(
                                 text = { Text(text = floatingActionButtonText) },
                                 onClick = {
-                                    questionViewModel.checkAnswer()
-                                    floatingActionButtonClick()
+                                    floatingActionButtonClick(questionViewModel.checkAnswer())
                                 },
                                 icon = { Icon(floatingActionButtonIcon, "提交") }
                             )

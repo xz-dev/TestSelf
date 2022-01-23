@@ -14,7 +14,7 @@ fun QuestionCard(viewModel: QuestionViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp),
+            .padding(24.dp),
         verticalArrangement = Arrangement.Center,
     ) {
         Text(text = viewModel.question.stem)
