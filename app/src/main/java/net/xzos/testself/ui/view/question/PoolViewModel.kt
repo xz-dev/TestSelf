@@ -10,19 +10,19 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import net.xzos.testself.core.database.table.PoolEntity
-import net.xzos.testself.core.database.table.QuestionEntity
 import net.xzos.testself.core.manager.PoolManager
 
 class PoolViewModel(
     pool: PoolEntity,
     private val reviewMode: ReviewMode
 ) : ViewModel() {
-    var question by mutableStateOf<QuestionEntity?>(null)
+    val questionDataList by mutableStateOf(getQuestionList(pool).map { QuestionData(it) })
+    var question by mutableStateOf(questionDataList.firstOrNull())
         private set
 
-    var haveNextQuestion by mutableStateOf(false)
+    var haveNextQuestion by mutableStateOf(getNextQuestion() != null)
         private set
-    var haveLastQuestion by mutableStateOf(false)
+    var haveLastQuestion by mutableStateOf(getLastQuestion() != null)
         private set
 
     val quit by mutableStateOf(question != null)
@@ -31,27 +31,15 @@ class PoolViewModel(
     var floatingActionButtonIcon by mutableStateOf(Icons.Filled.Done)
 
     private val pool by mutableStateOf(pool)
-    private var questionList: List<QuestionEntity> = getQuestionList(pool)
 
-    fun renewData() {
-        question = questionList.firstOrNull()
-        renewStatus()
-    }
-
-    fun renewStatus() {
-        val index = questionList.indexOf(question)
-        haveNextQuestion = index < questionList.size - 1
-        haveLastQuestion = index > 0
-    }
-
-    fun floatingActionButtonClick(answerRight: Boolean) {
-        if (answerRight) {
+    fun floatingActionButtonClick() {
+        if (floatingActionButtonText == "下一题") {
+            toNextQuestion()
             floatingActionButtonText = "提交"
             floatingActionButtonIcon = Icons.Filled.Done
-            toNextQuestion()
         } else {
-            floatingActionButtonIcon = Icons.Filled.ArrowForward
             floatingActionButtonText = "下一题"
+            floatingActionButtonIcon = Icons.Filled.ArrowForward
         }
     }
 
@@ -64,18 +52,24 @@ class PoolViewModel(
             }
         }
 
+    fun getNextQuestion() = try {
+        questionDataList[questionDataList.indexOf(question) + 1]
+    } catch (e: IndexOutOfBoundsException) {
+        null
+    }
+
+    fun getLastQuestion() = try {
+        questionDataList[questionDataList.indexOf(question) - 1]
+    } catch (e: IndexOutOfBoundsException) {
+        null
+    }
+
     fun toNextQuestion() {
-        question = try {
-            questionList[questionList.indexOf(question) + 1]
-        } catch (e: IndexOutOfBoundsException) {
-            null
-        }
-        renewStatus()
+        question = getNextQuestion()
     }
 
     fun toLastQuestion() {
-        question = questionList[questionList.indexOf(question) - 1]
-        renewStatus()
+        question = getLastQuestion()
     }
 }
 

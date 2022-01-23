@@ -24,6 +24,16 @@ class Converters {
     }
 
     @TypeConverter
+    fun fromStringSet(list: Set<String>?): String? {
+        return fromStringList(list?.toList())
+    }
+
+    @TypeConverter
+    fun stringToSet(s: String?): Set<String> {
+        return stringToList(s).toSet()
+    }
+
+    @TypeConverter
     fun fromMapToString(dict: Map<String, String?>?): String? {
         return if (dict.isNullOrEmpty())
             null

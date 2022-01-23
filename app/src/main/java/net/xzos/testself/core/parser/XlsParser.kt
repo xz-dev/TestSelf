@@ -68,7 +68,7 @@ fun xlsLineToDB(
         dict["Topic"] ?: "No Stem",
         sort,
         optionMap,
-        getAnswerList(dict["Result"], dict["Explain"], sort),
+        getAnswerList(dict["Result"], dict["Explain"], sort).toSet(),
         dict["Explain"] ?: ""
     )
 }

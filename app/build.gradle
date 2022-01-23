@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
 }
+apply plugin: 'kotlin-android'
 
 android {
     compileSdk 31
@@ -58,8 +59,8 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.0'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
@@ -72,17 +73,17 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
 
-    implementation "androidx.navigation:navigation-compose:2.4.0-beta02"
+    implementation "androidx.navigation:navigation-compose:2.4.0-rc01"
 
     // kotlin
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2-native-mt'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0-native-mt'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     // ROOM
-    def room_version = "2.3.0"
+    def room_version = "2.4.1"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
-
 
     // Json
     implementation 'com.google.code.gson:gson:2.8.9'
@@ -92,4 +93,5 @@ dependencies {
     implementation "com.github.SUPERCILEX.poi-android:poi:$poi_version"
     implementation "com.github.SUPERCILEX.poi-android:proguard:$poi_version"
     compileOnly "org.apache.poi:poi-ooxml:$poi_version"
+    implementation "androidx.core:core-ktx:1.7.0"
 }

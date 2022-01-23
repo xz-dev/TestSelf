@@ -6,50 +6,45 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import net.xzos.testself.core.database.table.QuestionEntity
 import net.xzos.testself.core.manager.PoolManager
 
 class QuestionViewModel(
-    question: QuestionEntity,
+    private val questionData: QuestionData,
 ) : ViewModel() {
-    var question by mutableStateOf(question)
+    var question by mutableStateOf(questionData.question)
         private set
 
-    var isRadio by mutableStateOf(question.answer.size <= 1)
-
-    var choiceList by mutableStateOf(setOf<String>())
-        private set
-
-    val explain by mutableStateOf(question.explain)
-    var explainShow by mutableStateOf(false)
-
-    fun setQuestionView(question: QuestionEntity) {
-        this.question = question
+    val pageData = QuestionPageData().apply {
+        renewView(questionData)
     }
 
-    fun setChoice(optionNum: String) {
-        choiceList = if (isRadio) {
-            setOf(optionNum)
-        } else {
-            if (optionNum in choiceList)
-                choiceList.minus(optionNum)
-            else choiceList.plus(optionNum)
+    fun setAnswer(choiceList: Set<String>) {
+        questionData.answerList = choiceList
+        pageData.setChoiceList(questionData)
+    }
+
+    fun clickChoice(optionNum: String) {
+        with(pageData) {
+            val choiceList = if (isRadio) {
+                listOf(optionNum)
+            } else {
+                val rawChoiceList = optionList.map { it.key }
+                if (rawChoiceList.contains(optionNum))
+                    rawChoiceList.minus(optionNum)
+                else rawChoiceList.plus(optionNum)
+            }
+            setAnswer(choiceList.toSet())
         }
     }
 
     fun checkAnswer(): Boolean {
         val question = question
-        val answerList = question.answer.toSet()
-        return (if (choiceList != answerList) {
-            choiceList = answerList
-            explainShow = true
-            false
-        } else {
-            explainShow = false
-            true
-        }).also {
+        pageData.renewView(questionData)
+        return (questionData.question.answer == questionData.answerList).apply {
             runBlocking(Dispatchers.Default) {
-                PoolManager.recordQuestion(question, it && !explainShow)
+                PoolManager.recordQuestion(
+                    question, this@apply
+                )
             }
         }
     }

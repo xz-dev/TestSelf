@@ -32,18 +32,12 @@ class QuestionPageActivity : ComponentActivity() {
                 super.finish()
                 return
             }
-        ).apply {
-            renewData()
-        }
-        if (poolViewModel.quit) {
+        )
+        if (poolViewModel.questionDataList.isEmpty()) {
             finish()
         }
         setContent {
             val questionViewModel = QuestionViewModel(poolViewModel.question ?: kotlin.run {
-                super.finish()
-                return@setContent
-            })
-            questionViewModel.setQuestionView(poolViewModel.question ?: kotlin.run {
                 super.finish()
                 return@setContent
             })
@@ -72,7 +66,8 @@ class QuestionPageActivity : ComponentActivity() {
                             ExtendedFloatingActionButton(
                                 text = { Text(text = floatingActionButtonText) },
                                 onClick = {
-                                    floatingActionButtonClick(questionViewModel.checkAnswer())
+                                    questionViewModel.checkAnswer()
+                                    floatingActionButtonClick()
                                 },
                                 icon = { Icon(floatingActionButtonIcon, "提交") }
                             )
@@ -82,7 +77,6 @@ class QuestionPageActivity : ComponentActivity() {
                     bottomBar = {
                         BottomAppBar(
                             backgroundColor = Color.Black,
-                            // Defaults to null, that is, No cutout
                             cutoutShape = MaterialTheme.shapes.small.copy(
                                 CornerSize(percent = 50)
                             )
@@ -112,8 +106,6 @@ class QuestionPageActivity : ComponentActivity() {
                     ) {
                         Column {
                             QuestionCard(questionViewModel)
-                            if (questionViewModel.explainShow)
-                                Text(text = questionViewModel.explain)
                         }
                     }
                 }

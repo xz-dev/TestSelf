@@ -11,7 +11,7 @@ data class QuestionEntity(
     @ColumnInfo(name = "stem") val stem: String,
     @ColumnInfo(name = "sort") val sort: QuestionSort,
     @ColumnInfo(name = "option") val option: Map<String, String>,
-    @ColumnInfo(name = "answer") val answer: List<String>,
+    @ColumnInfo(name = "answer") val answer: Set<String>,
     @ColumnInfo(name = "explain") val explain: String,
 )
 
