@@ -3,7 +3,6 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
 }
-apply plugin: 'kotlin-android'
 
 android {
     compileSdk 31
@@ -47,7 +46,7 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion '1.5.31'
+        kotlinCompilerVersion kotlin_version
     }
     packagingOptions {
         resources {
